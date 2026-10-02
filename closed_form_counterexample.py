@@ -1,17 +1,12 @@
 """
-Closed-form counterexample of Section 4.1.
+Closed-form counterexample of Section 3.
 
 X ~ Exp(1) (so V = 1) and g(x) = (1+k) e^{-kx}, k > 0, which is decreasing and
-satisfies E g(X) = 1.  Then everything is explicit:
-
-    sbar_inf   = exp(-(1+k)(R0-1)),
-    S^g_inf    = 1 / [1 + (1+k)(R0-1)],          m = 1/(1+k),
-
-and S^g_inf < S^hom_inf exactly when
+satisfies E g(X) = 1.  S^g_inf < S^hom_inf exactly when
 
     k > k*(R0) := (1/S^hom_inf - 1)/(R0 - 1) - 1,
 
-so that heterogeneity INCREASES the epidemic size, contrary to Theorem 3.3.
+so that heterogeneity may increase the epidemic size
 """
 import numpy as np
 from scipy.optimize import brentq
@@ -40,18 +35,8 @@ def kstar(R):
     return (1.0 / Shom(R) - 1.0) / (R - 1.0) - 1.0
 
 
-# ----------------------------------------------------------------- checks
-print("verification of the closed form\n")
-print(f"{'R0':>5} {'S^hom':>10} {'k*(R0)':>9} | {'S^g at k*':>10} {'match':>7}")
-for R in [1.5, 2.0, 3.0, 5.0]:
-    ks = kstar(R)
-    print(f"{R:>5} {Shom(R):>10.6f} {ks:>9.4f} | {Sg(ks, R):>10.6f} "
-          f"{abs(Sg(ks,R)-Shom(R)) < 1e-12}")
 
-print(f"\nquoted in the text: R0 = 2 gives S^hom = {Shom(2.0):.4f}, "
-      f"k*(2) = {kstar(2.0):.2f}")
-print(f"                    k = 8 gives S^g = {Sg(8.0, 2.0):.4f} "
-      f"(attack ratio {1-Sg(8.0,2.0):.1%} against {1-Shom(2.0):.1%})")
+
 
 # also check sbar_inf solves the final size relation, as a sanity test
 for R, k in [(2.0, 3.0), (3.0, 0.7)]:

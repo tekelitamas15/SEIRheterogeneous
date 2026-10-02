@@ -28,8 +28,6 @@ def tstar(R):
 TST = tstar(R0)
 ZSTAR = TST / R0
 
-
-# --------------------------------------------------------------- the six laws
 class Gam:
     """Gamma with mean 1 and variance V: shape p = 1/V, rate p.  Exact."""
     b = np.inf
